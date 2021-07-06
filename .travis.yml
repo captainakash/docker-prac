@@ -7,4 +7,17 @@ before_install:
   - docker build -t johndenvor/docker-prac -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true johndenvor/docker-prac npm run test      
+  - docker run -e CI=true johndenvor/docker-prac npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-south-1" 
+  app: "docker-prac" 
+  env: "Dockerprac-env"
+  bucket_name: "elasticbeanstalk-ap-south-1-906309112735"
+  bucket_path: "docker-prac"
+  on:
+    branch: master 
+
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
